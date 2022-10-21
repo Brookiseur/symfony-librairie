@@ -1,0 +1,30 @@
+{% extends 'base-backend.html.twig' %}
+
+{% block title %}BookPage{% endblock %}
+
+{% block body %}
+<a href="{{ path('app_admin_book_page_index') }}"class="btn btn-dark btn-sm">Retour à la liste</a>
+<div class="d-flex justify-content-between align-item-center">
+    <h1 class="mt-3">Page</h1>
+    {{ include('admin_book_page/_delete_form.html.twig') }}
+</div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ book_page.id }}</td>
+            </tr>
+            <tr>
+                <th>ImageName</th>
+                <td>{{ book_page.imageName }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ book_page.updatedAt ? book_page.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+<a href="{{ path('app_admin_book_page_edit', {'id': book_page.id}) }}" class="btn btn-success" ><i class="align-middle" data-feather="edit-3"></i></a>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base-backend.html.twig' %}
+
+{% block title %}BookCategory{% endblock %}
+
+{% block body %}
+<a href="{{ path('app_admin_book_category_index') }}"class="btn btn-dark btn-sm">Retour à la liste</a>
+<div class="d-flex justify-content-between align-item-center">
+    <h1 class="mt-3">Genre</h1>
+    {{ include('admin_book_category/_delete_form.html.twig') }}
+</div>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ book_category.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ book_category.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ book_category.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+<a href="{{ path('app_admin_book_category_edit', {'id': book_category.id}) }}" class="btn btn-success" ><i class="align-middle" data-feather="edit-3"></i></a>
+
+{% endblock %}

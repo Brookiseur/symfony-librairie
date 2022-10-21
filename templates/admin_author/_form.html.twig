@@ -1,0 +1,30 @@
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.firstName)}}
+    {{ form_row(form.pseudo) }}
+    {{ form_row(form.biography) }}
+    {{ form_row(form.imageFile) }}
+    {{ form_row(form.birthdate) }}
+    {{ form_row(form.dateOfDeath) }}
+
+    <button type="button" class="add-another-collection-widget btn btn-dark" data-list-selector="#book-list">
+    Ajouter un livre
+    </button>
+
+<ul id="book-list" class="list-unstyled" 
+    data-prototype="{{ form_widget(form.books.vars.prototype)|e }}" data-widget-tags="{{ '<li class="bg-light border my-3"></li>'|e }}" data-widget-counter="{{ form.books|length }}">
+    {% for book in form.books %}
+        <li>
+            {{ form_errors(book) }}
+            {{ form_widget(book) }}
+        </li>
+    {% endfor %}
+</ul>
+
+
+
+{% include 'admin_common/_required-fields.html.twig' %}
+<button class="btn btn-success mt-3">
+    {{ button_label|default('Sauvegarder') }}
+</button>
+{{ form_end(form) }}

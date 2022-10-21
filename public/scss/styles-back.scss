@@ -1,0 +1,15 @@
+body{
+    label{
+        &.required{
+            &::after{
+                content: "*";
+                color: red;
+            }
+        }
+    }
+    .img-list{
+        width:100%;
+        max-width: 150px;
+    }
+}
+

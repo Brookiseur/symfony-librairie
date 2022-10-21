@@ -1,0 +1,43 @@
+{% extends 'base-backend.html.twig' %}
+
+{% block title %}BookPage index{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center"> 
+<h1>Pages</h1>
+<a href="{{ path('app_admin_book_page_new') }}" class="btn btn-success">Nouveau</a>
+</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ImageName</th>
+                {# <th>UpdatedAt</th> #}
+                <th class="text-end">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for book_page in book_pages %}
+            <tr>
+                <td>{{ book_page.id }}</td>
+                <td><a href="{{ asset('images/book-pages/' ~ book_page.imageName) }}" data-lightbox="{{book_page.imageName}}"> 
+                    <img class="img-list" src="{{ asset('images/book-pages/' ~ book_page.imageName) }}" alt="{{book_page.imageName}}">
+                </a></td>
+                {# <td>{{ book_page.updatedAt ? book_page.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
+                <td>
+                    <div class="d-flex justify-content-end align-item-center">
+                        <a href="{{ path('app_admin_book_page_show', {'id': book_page.id}) }}"class="btn btn-dark"><i class="align-middle" data-feather="eye"></i></a>
+                        <a href="{{ path('app_admin_book_page_edit', {'id': book_page.id}) }}"class="btn btn-success mx-1"><i class="align-middle" data-feather="edit-3"></i></a>
+                        {{ include('admin_book/_delete_form.html.twig') }}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base-backend.html.twig' %}
+
+{% block title %}Auteurs{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center"> 
+<h1>Auteurs</h1>
+<a href="{{ path('app_admin_author_new') }}" class="btn btn-success">Nouveau</a>
+</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>FirstName</th>
+                <th>Pseudo</th>
+                <th>ImageName</th>
+                {# <th>UpdatedAt</th> #}
+                <th>Biography</th>
+                <th>Birthdate</th>
+                <th>DateOfDeath</th>
+                {# <th>Slug</th> #}
+                <th class="text-end">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for author in authors %}
+            <tr>
+                <td>{{ author.id }}</td>
+                <td>{{ author.name }}</td>
+                <td>{{ author.firstName }}</td>
+                <td>{{ author.pseudo }}</td>
+                <td><a href="{{ asset('images/authors/' ~ author.imageName) }}" data-lightbox="{{author.imageName}}"> 
+                    <img class="img-list" src="{{ asset('images/authors/' ~ author.imageName) }}" alt="{{author.imageName}}">
+                </a></td>
+                {# <td>{{ author.updatedAt ? author.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
+                <td>{{ author.biography }}</td>
+                <td>{{ author.birthdate ? author.birthdate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ author.dateOfDeath ? author.dateOfDeath|date('Y-m-d H:i:s') : '' }}</td>
+                {# <td>{{ author.slug }}</td> #}
+                <td>
+                    <div class="d-flex justify-content-end align-item-center">
+                        <a href="{{ path('app_admin_author_show', {'id': author.id}) }}"class="btn btn-dark"><i class="align-middle" data-feather="eye"></i></a>
+                        <a href="{{ path('app_admin_author_edit', {'id': author.id}) }}"class="btn btn-success mx-1"><i class="align-middle" data-feather="edit-3"></i></a>
+                        {{ include('admin_author/_delete_form.html.twig') }}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
