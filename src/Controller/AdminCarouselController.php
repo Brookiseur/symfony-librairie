@@ -17,7 +17,7 @@ class AdminCarouselController extends AbstractController
     public function index(CarouselRepository $carouselRepository): Response
     {
         return $this->render('admin_carousel/index.html.twig', [
-            'carousels' => $carouselRepository->findAll(),
+            'carousels' => $carouselRepository->findBy([], ["id"=>"DESC"]),
         ]);
     }
 

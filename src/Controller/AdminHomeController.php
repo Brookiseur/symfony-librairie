@@ -17,7 +17,7 @@ class AdminHomeController extends AbstractController
     public function index(HomeRepository $homeRepository): Response
     {
         return $this->render('admin_home/index.html.twig', [
-            'homes' => $homeRepository->findAll(),
+            'homes' => $homeRepository->findBy([], ["id"=>"DESC"]),
         ]);
     }
 

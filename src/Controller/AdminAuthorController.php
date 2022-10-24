@@ -5,20 +5,29 @@ namespace App\Controller;
 use App\Entity\Author;
 use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/admin/author')]
 class AdminAuthorController extends AbstractController
 {
     #[Route('/', name: 'app_admin_author_index', methods: ['GET'])]
-    public function index(AuthorRepository $authorRepository): Response
+    public function index(AuthorRepository $authorRepository, PaginatorInterface $paginator, Request $request ): Response
     {
+        $query = $authorRepository->findBy([], ["id"=>"DESC"]);
+        $authors = $paginator->paginate(
+        $query, /* query NOT result */
+        $request->query->getInt('page', 1), /*page number*/
+        4 /*limit per page*/
+        );
+
         return $this->render('admin_author/index.html.twig', [
-            'authors' => $authorRepository->findAll(),
+            'authors' => $authors,
+            
         ]);
     }
 
@@ -42,6 +51,13 @@ class AdminAuthorController extends AbstractController
                 }
             }
             $author->setSlug($sluggerInterface->slug(strtolower($s)));
+            // Prise en charge des slug des livres
+            if (count($form->getData()->getBooks())>0){
+                    foreach ($form->getData()->getBooks() as $book){
+                        $book->setSlug($sluggerInterface->slug(strtolower($book->getTitre())));
+                    }
+                }
+            
             $authorRepository->save($author, true);
 
             return $this->redirectToRoute('app_admin_author_index', [], Response::HTTP_SEE_OTHER);

@@ -35,8 +35,8 @@
                 </a></td>
                 {# <td>{{ author.updatedAt ? author.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
                 <td>{{ author.biography }}</td>
-                <td>{{ author.birthdate ? author.birthdate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ author.dateOfDeath ? author.dateOfDeath|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ author.birthdate ? author.birthdate|date('d-m-Y') : '' }}</td>
+                <td>{{ author.dateOfDeath ? author.dateOfDeath|date('d-m-Y') : '' }}</td>
                 {# <td>{{ author.slug }}</td> #}
                 <td>
                     <div class="d-flex justify-content-end align-item-center">
@@ -53,5 +53,8 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+    {{ knp_pagination_render(authors) }}
+    </div>
 
 {% endblock %}

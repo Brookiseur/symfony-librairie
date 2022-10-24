@@ -17,7 +17,7 @@ class AdminBookCategoryController extends AbstractController
     public function index(BookCategoryRepository $bookCategoryRepository): Response
     {
         return $this->render('admin_book_category/index.html.twig', [
-            'book_categories' => $bookCategoryRepository->findAll(),
+            'book_categories' => $bookCategoryRepository->findBy([], ["id"=>"DESC"]),
         ]);
     }
 

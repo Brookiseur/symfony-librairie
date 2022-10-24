@@ -17,7 +17,7 @@ class AdminBookPageController extends AbstractController
     public function index(BookPageRepository $bookPageRepository): Response
     {
         return $this->render('admin_book_page/index.html.twig', [
-            'book_pages' => $bookPageRepository->findAll(),
+            'book_pages' => $bookPageRepository->findBy([], ["id"=>"DESC"]),
         ]);
     }
 
