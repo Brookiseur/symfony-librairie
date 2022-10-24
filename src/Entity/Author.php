@@ -48,7 +48,7 @@ class Author
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfDeath = null;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Book::class)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Book::class, cascade:["persist"])]
     private Collection $books;
 
     #[ORM\Column(length: 255)]

@@ -36,7 +36,7 @@ class AdminAuthorController extends AbstractController
 
             }else{
                 $s="";
-                if (!is_null($author->getFirstName())) $s .+ $author->getFirstName();
+                if (!is_null($author->getFirstName())) { $s .= $author->getFirstName();}
                 if (!is_null($author->getName())){
                     (strlen($s)>0) ? $s .= " ".$author->getName() : $s .=$author->getName();
                 }

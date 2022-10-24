@@ -38,7 +38,7 @@ class Book
     #[ORM\Column]
     private ?bool $isActive = null;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\ManyToOne(inversedBy: 'books', cascade:["persist"])]
     private ?Author $author = null;
 
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookPage::class, orphanRemoval: true)]

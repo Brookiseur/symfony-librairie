@@ -24,19 +24,22 @@ class BookType extends AbstractType
             ->add('titre', TextType::class, ["label"=>"Titre", "required"=>true])
             ->add('description', CKEditorType::class, ["label"=>"Description", "required"=>false])
             ->add('imageFile', FileType::class, ["label"=>"Image", "required"=>false])
-            ->add('author', EntityType::class, ["class"=>Author::class, "label"=>"Auteur", "required"=>true])
             ->add('bookCategory', EntityType::class, ["label"=>"Catégorie", "class"=>BookCategory::class, "required"=>true])
             ->remove('updatedAt')
             ->remove('slug')
-            ->remove('imageName')
-            
+            ->remove('imageName')         
         ;
+        if(!$options["fromAuthor"]){
+            $builder
+            ->add('author', EntityType::class, ["class"=>Author::class, "label"=>"Auteur", "required"=>true]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Book::class,
+            'fromAuthor' => false, 
         ]);
     }
 }

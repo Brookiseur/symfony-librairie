@@ -28,6 +28,7 @@ class AuthorType extends AbstractType
             ->add('dateOfDeath', DateTimeType::class, ["label"=>"Décédé le", "widget"=>"single_text", "required"=>false])
             ->add('books', CollectionType::class, [
                 "entry_type"=> BookType::class,
+                "entry_options"=>["fromAuthor"=>true],
                 "allow_add"=>true,
                 "allow_delete"=>true,
                 "by_reference"=>false,
