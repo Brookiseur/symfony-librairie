@@ -54,6 +54,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Avatar $avatar = null;
 
+    // ====================================================== //
+    // ================= GETTERS / SETTERS ===================//
+    // ====================================================== //
+
+
+
     public function getId(): ?int
     {
         return $this->id;
