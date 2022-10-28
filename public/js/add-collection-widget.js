@@ -19,5 +19,25 @@ jQuery(document).ready(function () {
         // create a new list element and add it to the list
         var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
         newElem.appendTo(list);
+        // ajout du bouton de suppression
+        addFormeDeleteLink(newElem);
     });
 });
+//
+
+function addFormeDeleteLink(item){
+const removeFormButton = document.createElement('button');
+    removeFormButton.classList.add('btn', 'btn-danger', 'btn-sm', 'mt-2' );
+    const icon = document.createElement('i');
+    icon.classList.add('align-middle');
+    icon.setAttribute('data-feather', 'trash-2');
+    removeFormButton.append(icon);
+
+    item.append(removeFormButton);
+    feather.replace();
+    removeFormButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        // remove the li for the tag form
+        item.remove();
+    });
+}

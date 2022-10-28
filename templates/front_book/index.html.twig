@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les livres {% endblock %}
+
+{% block stylesheets %}
+<style> 
+section{
+    border: 1px solid rgb(33,37,41);
+} 
+.btn{
+    border-radius: 0;
+}
+</style>
+
+{% endblock %}
+
+{% block body %}
+{% for category in categories %}
+    {% set booksActive = 0 %}
+    {% for book in category.books %}
+        {% if book.isActive == true %}
+        {% set booksActive = booksActive + 1 %}
+    {% endif %}
+    {% endfor %}
+
+    {% if booksActive > 0 %}
+        <section class="mb-3">
+            <h2 class="bg-dark text-white px-3">{{category.title}}</h2>
+            <div class="d-flex flex-wrap">
+            {% set nbBook = 0 %}
+            {% for book in category.books %}
+                {% if book.isActive and nbBook < 2 %} 
+                <div class="col-6 col-md-3 col-lg-2 p-2">
+                    <img src="{{ asset('images/books/' ~ book.imageName) }}" alt="{{book.titre}}" class="img-fluid">
+                </div>
+                {% set nbBook = nbBook + 1 %}
+                {% endif %}
+            {% endfor %}
+            </div>
+            <a href="{{ path('app_front_category_show' , { id: category.id }) }}" class="btn btn-dark btn-sm w-100"> Afficher l'ensemble</a>
+        </section>
+    {% endif %}
+{% endfor %}
+{% endblock %}

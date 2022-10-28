@@ -20,10 +20,10 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('isActive', CheckboxType::class, ["label"=>"Livre Visible ?", "row_attr"=>["class"=>"form-switch"], "required"=>false])
+            ->add('isActive', CheckboxType::class, ["label"=>"Rendre Visible", "row_attr"=>["class"=>"form-switch"], "required"=>false])
             ->add('titre', TextType::class, ["label"=>"Titre", "required"=>true])
             ->add('description', CKEditorType::class, ["label"=>"Description", "required"=>false])
-            ->add('imageFile', FileType::class, ["label"=>"Image", "required"=>false])
+            ->add('imageFile', FileType::class, ["label"=>"Image", "required"=>$options["imageRequired"]])
             ->add('bookCategory', EntityType::class, ["label"=>"Catégorie", "class"=>BookCategory::class, "required"=>true])
             ->remove('updatedAt')
             ->remove('slug')
@@ -40,6 +40,7 @@ class BookType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Book::class,
             'fromAuthor' => false, 
+            'imageRequired'=> true,
         ]);
     }
 }

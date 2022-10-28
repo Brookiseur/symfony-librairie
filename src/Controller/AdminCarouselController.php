@@ -5,19 +5,27 @@ namespace App\Controller;
 use App\Entity\Carousel;
 use App\Form\CarouselType;
 use App\Repository\CarouselRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/admin/carousel')]
 class AdminCarouselController extends AbstractController
 {
     #[Route('/', name: 'app_admin_carousel_index', methods: ['GET'])]
-    public function index(CarouselRepository $carouselRepository): Response
+    public function index(CarouselRepository $carouselRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $query = $carouselRepository->findBy([], ["id"=>"DESC"]);
+        $carousels = $paginator->paginate(
+        $query, /* query NOT result */
+        $request->query->getInt('page', 1), /*page number*/
+        4 /*limit per page*/
+        );
+
         return $this->render('admin_carousel/index.html.twig', [
-            'carousels' => $carouselRepository->findBy([], ["id"=>"DESC"]),
+            'carousels' => $carousels,
         ]);
     }
 

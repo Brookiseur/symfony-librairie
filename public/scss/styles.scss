@@ -1,3 +1,15 @@
 body {
     background: url(../images/paisley.webp);
+    .pagination{
+        .active{
+            .page-link{
+                background-color: #212529;
+                border-color: #212529;
+                color: white;
+                    }
+                }
+        .page-link{
+            color: #212529;
+            }
+        }
 }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\BookPage;
 use App\Form\BookPageType;
 use App\Repository\BookPageRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminBookPageController extends AbstractController
 {
     #[Route('/', name: 'app_admin_book_page_index', methods: ['GET'])]
-    public function index(BookPageRepository $bookPageRepository): Response
+    public function index(BookPageRepository $bookPageRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $query = $bookPageRepository->findBy([], ["id"=>"DESC"]);
+        $bookPages = $paginator->paginate(
+        $query, /* query NOT result */
+        $request->query->getInt('page', 1), /*page number*/
+        4 /*limit per page*/
+        );
         return $this->render('admin_book_page/index.html.twig', [
-            'book_pages' => $bookPageRepository->findBy([], ["id"=>"DESC"]),
+            'book_pages' => $bookPages,
         ]);
     }
 

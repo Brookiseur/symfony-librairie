@@ -15,10 +15,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/admin/author')]
 class AdminAuthorController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_author_index', methods: ['GET'])]
+    #[Route('/', name: 'app_admin_author_index', methods: ['GET', 'POST'])]
     public function index(AuthorRepository $authorRepository, PaginatorInterface $paginator, Request $request ): Response
     {
+        if(!is_null($request->request->get('search'))){
+            $query = $authorRepository->search($request->request->get("search"));
+
+        }else{
         $query = $authorRepository->findBy([], ["id"=>"DESC"]);
+        }
+
         $authors = $paginator->paginate(
         $query, /* query NOT result */
         $request->query->getInt('page', 1), /*page number*/
@@ -60,6 +66,9 @@ class AdminAuthorController extends AbstractController
             
             $authorRepository->save($author, true);
 
+            //Mise en place du flash message 
+            $this->addFlash('success', 'Auteur correctement ajouté');
+
             return $this->redirectToRoute('app_admin_author_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -80,11 +89,14 @@ class AdminAuthorController extends AbstractController
     #[Route('/{id}/edit', name: 'app_admin_author_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Author $author, AuthorRepository $authorRepository): Response
     {
-        $form = $this->createForm(AuthorType::class, $author);
+        $form = $this->createForm(AuthorType::class, $author, ["hasBooks"=>false]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $authorRepository->save($author, true);
+
+            //Mise en place du flash message 
+            $this->addFlash('success', 'Auteur correctement ajouté');
 
             return $this->redirectToRoute('app_admin_author_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -100,6 +112,7 @@ class AdminAuthorController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$author->getId(), $request->request->get('_token'))) {
             $authorRepository->remove($author, true);
+            $this->addFlash('danger', 'Auteur correctement supprimé');
         }
 
         return $this->redirectToRoute('app_admin_author_index', [], Response::HTTP_SEE_OTHER);
